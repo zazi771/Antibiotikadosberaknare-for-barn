@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antibiotikadosberäknare för barn</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            padding: 5px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Antibiotikadosberäknare för barn</h1>
+    <form id="dosageForm">
+        <label for="weight">Barnets vikt (kg):</label>
+        <input type="number" id="weight" min="1" step="0.1" required>
+
+        <label for="concentration">Antibiotikakoncentration (mg/ml):</label>
+        <input type="number" id="concentration" min="1" step="0.1" required>
+
+        <label for="dosePerKg">Rekommenderad dos (mg/kg):</label>
+        <input type="number" id="dosePerKg" min="1" step="0.1" required>
+
+        <label for="frequency">Dosering per dag (antal gånger):</label>
+        <input type="number" id="frequency" min="1" max="3" required>
+
+        <button type="button" onclick="calculateDosage()">Beräkna dos</button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function calculateDosage() {
+            // Hämta värden från användarens inmatning
+            const weight = parseFloat(document.getElementById('weight').value);
+            const concentration = parseFloat(document.getElementById('concentration').value);
+            const dosePerKg = parseFloat(document.getElementById('dosePerKg').value);
+            const frequency = parseInt(document.getElementById('frequency').value);
+
+            // Beräkna den totala dagliga dosen i mg
+            const totalDailyDose = dosePerKg * weight;
+
+            // Beräkna dos per administrering (baserat på frekvens)
+            const dosePerAdministration = totalDailyDose / frequency;
+
+            // Beräkna hur många ml som motsvarar en dos
+            const mlPerDose = dosePerAdministration / concentration;
+
+            // Visa resultatet
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>Den totala dagliga dosen är <strong>${totalDailyDose.toFixed(2)} mg</strong>.</p>
+                <p>Dosen per administrering är <strong>${dosePerAdministration.toFixed(2)} mg</strong> (${mlPerDose.toFixed(2)} ml).</p>
+            `;
+        }
+    </script>
+</body>
+</html>
