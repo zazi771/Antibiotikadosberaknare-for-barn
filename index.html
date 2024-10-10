@@ -10,7 +10,7 @@
         th { background-color: #f2f2f2; }
         div { margin-bottom: 10px; }
         select, input { width: 100%; padding: 5px; }
-        #message { background-color: #fffbe6; padding: 10px; margin-bottom: 10px; display: none; }
+        #message, #warning-message { background-color: #fffbe6; padding: 10px; margin-bottom: 10px; display: none; }
         #result { background-color: #e6ffe6; padding: 10px; display: none; }
         .hidden { display: none; }
         #recommended-dose { background-color: #e6ffe6; }
@@ -69,7 +69,7 @@
             </select>
         </div>
 
-        <div>
+        <div id="formulation-section">
             <label for="formulation">Formulering:</label>
             <select id="formulation">
                 <option value="">Välj formulering...</option>
@@ -77,39 +77,93 @@
         </div>
 
         <div>
-            <label for="recommended-dose-ml">Rekommenderad dos (mg/ml):</label>
-            <input type="text" id="recommended-dose-ml" readonly>
+            <label for="recommended-dose-mg-kg">Rekommenderad dos:</label>
+            <input type="text" id="recommended-dose-mg-kg" readonly>
         </div>
 
-        <div>
+        <div id="weight-section">
             <label for="weight">Barnets vikt (kg):</label>
             <input type="number" id="weight" min="0" step="0.1">
         </div>
 
-        <div>
-            <label for="recommended-dose">Rekommenderad dos:</label>
-            <input type="text" id="recommended-dose" readonly>
-        </div>
+        <div id="calculated-dose-section">
+    <label for="recommended-dose">Beräknad dos (ml) (3 gånger/dygn, 5-7 dagar):</label>
+    <input type="text" id="recommended-dose" readonly>
+</div>
+
     </div>
 
-    <div id="result"></div>
+    <div id="dalacin-table" class="hidden">
+        <h3>Doseringstabell för Dalacin (klindamycin)</h3>
+        <table>
+            <tr>
+                <th>Vikt kg</th>
+                <th>Ålder år</th>
+                <th>Dygnsdos</th>
+                <th>Antal förpackningar per 10 dagar</th>
+            </tr>
+            <tr>
+                <td>&lt;10</td>
+                <td>0-1</td>
+                <td>2,5 ml x 3</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>10-15</td>
+                <td>1-3</td>
+                <td>3,5 ml x 3</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>15-20</td>
+                <td>3-6</td>
+                <td>5 ml x 3</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>20-30</td>
+                <td>6-9</td>
+                <td>7 ml x 3</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>&gt;30</td>
+                <td>9-12</td>
+                <td>10 ml x 3</td>
+                <td>4</td>
+            </tr>
+        </table>
+        <p>Pediatrisk population: 15 mg/kg (=1 ml/kg) och dygn uppdelat på 3 doser. Maximal dos är 20 mg/kg/dygn och vid denna dos bör dosering ske 4 gånger dagligen. Absorptionen påverkas ej av samtidigt födointag.</p>
+    </div>
 
     <div id="formula-explanation">
         <h3>Förklaring av doseringsformler</h3>
         <p>Formlerna som används för att beräkna doseringen av antibiotika baseras på barnets vikt och läkemedlets koncentration. Så här beräknas de:</p>
         <ul>
-            <li><strong>Dos i mg:</strong> Barnets vikt (kg) × Rekommenderad dos (mg/kg)</li>
             <li><strong>Dos i ml (för flytande beredningar):</strong> (Barnets vikt (kg) × Rekommenderad dos (mg/kg)) ÷ Läkemedlets koncentration (mg/ml)</li>
         </ul>
         <p>Specifika exempel per antibiotika:</p>
         <ul>
             <li><strong>Penicillin V:</strong> 25 mg/kg × barnets vikt</li>
             <li><strong>Metronidazol:</strong> 7,5 mg/kg × barnets vikt</li>
-            <li><strong>Klindamycin:</strong> 5 mg/kg × barnets vikt</li>
+            <li><strong>Klindamycin:</strong> 5 mg/kg 3 gånger/dygn, 5-7 dagar</li>
         </ul>
-        <p>Den beräknade dosen avrundas sedan till andra decimalen för ml eller till närmaste heltal för mg.</p>
-        <p>Obs: Dessa beräkningar är allmänna riktlinjer. För Dalacin (Klindamycin) rekommenderas att konsultera den specifika doseringstabellen som tar hänsyn till barnets viktintervall och ålder.</p>
-    </div>
+        <p>Den beräknade dosen avrundas till andra decimalen för ml.</p>
+<p><span style="color: red;">Obs: För Dalacin (Klindamycin) används en specifik doseringstabell baserad på barnets vikt och ålder.</span>
+<div style="color: blue;">
+    <h3>Förklaring av diskrepans i Klindamycin (Dalacin) dosering</h3>
+    <p>Det finns en märkbar skillnad mellan den generella doseringsrekommendationen och tabellen för Klindamycin (Dalacin). Här är en analys av denna diskrepans:</p>
+    <p>Den generella rekommendationen är 15 mg/kg/dygn uppdelat på 3 doser, vilket motsvarar 5 mg/kg 3 gånger per dygn. För ett barn som väger 20 kg skulle detta teoretiskt innebära: 20 kg × 5 mg/kg = 100 mg per dos, eller 6,67 ml om koncentrationen är 15 mg/ml. Dock visar tabellen att för barn mellan 15-20 kg är den rekommenderade dosen 5 ml × 3.</p>
+    <p>Denna skillnad kan bero på flera faktorer:</p>
+    <ul>
+        <li>Säkerhetsmarginal: Tabellen kan presentera en något lägre dos för att ge utrymme för justeringar vid behov.</li>
+        <li>Praktisk dosering: 5 ml kan vara enklare att mäta upp och administrera än 6,67 ml.</li>
+        <li>Åldersbaserad justering: Tabellen tar hänsyn till både vikt och ålder, vilket kan leda till små justeringar i doseringen.</li>
+        <li>Maximal dos: Tabellen kan vara utformad för att säkerställa att dosen inte överskrider den maximala dosen på 20 mg/kg/dygn, även för barn i den övre delen av viktintervallet.</li>
+    </ul>
+    <p>Det är viktigt att notera att tabellen ger en standardiserad dosering som kan vara lättare att följa i praktiken, medan den generella rekommendationen ger en mer exakt beräkning baserad på barnets specifika vikt.</p>
+    <p>För säker användning bör läkare och vårdgivare alltid följa de officiella riktlinjerna och använda sitt kliniska omdöme för att anpassa doseringen till den enskilda patientens behov och omständigheter.</p>
+  </div>
 </div>
 
 <script>
@@ -137,99 +191,87 @@
             timesPerDay: 3, 
             durationDays: "5-7",
             formulations: [
-                { name: "Kapsel 75 mg", concentration: null },
-                { name: "Kapsel 150 mg", concentration: null },
-                { name: "Kapsel 300 mg", concentration: null },
-                { name: "Granulat till oral lösning 15 mg/ml", concentration: 15 }
+                { name: "Oral lösning 15 mg/ml", concentration: 15 }
             ]
         }
     };
 
     const reasons = {
         fistel: "Fistel är ingen indikation för antibiotikabehandling.",
-        abscess: "Vid dessa tillfällen bör antibiotika användas som tilläggsbehandling till dränage. Antibiotika som enda behandling ska endast ges vid de tillfällen då dränage inte kan åstadkommas.",
-        sinus: "Rekommenderas förslutning av kommunikationen och en engångsdos antibiotikaprofylax (2 g amoxicillin alternativt 600 mg klindamycin vid PCaller gi).",
-        replantation: "Antibiotika kan vara indicerat vid replantation av exartikulerad tand.",
+        abscess: "I tillägg till antibiotika, utför dränering om det behövs.",
+        sinus: "Vid dessa tillfällen bör antibiotika användas som tilläggsbehandling till dränage. Antibiotika som enda behandling ska endast ges vid särskilda fall där dränage inte är möjligt. 2 g amoxicillin alternativt 600 mg klindamycin vid PCallergi",
+        replantation: "rekommenderas systemisk antibiotikabehandling.",
         osteomyelit: "Osteomyelit, osteoradionekros och läkemedelsrelaterad osteonekros (MRONJ) är speciella tillstånd som bör behandlas av eller i samråd med specialisttandvård."
     };
 
-    function updateMessage() {
-        const reason = document.getElementById('reason').value;
-        const messageElement = document.getElementById('message');
+    document.getElementById('reason').addEventListener('change', function() {
+        const reason = this.value;
+        const messageDiv = document.getElementById('message');
         const antibioticSection = document.getElementById('antibiotic-section');
-        
-        if (reason && reasons[reason]) {
-            messageElement.textContent = reasons[reason];
-            messageElement.style.display = 'block';
-            
-            if (reason === 'fistel' || reason === 'sinus' || reason === 'osteomyelit') {
+        const antibioticSelect = document.getElementById('antibiotic');
+
+        if (reason) {
+            messageDiv.textContent = reasons[reason];
+            messageDiv.style.display = 'block';
+
+            if (reason === 'fistel' || reason === 'osteomyelit' || reason === 'sinus') {
                 antibioticSection.classList.add('hidden');
+                antibioticSelect.value = '';
+                antibioticSelect.disabled = true;
             } else {
                 antibioticSection.classList.remove('hidden');
+                antibioticSelect.disabled = false;
             }
         } else {
-            messageElement.style.display = 'none';
+            messageDiv.style.display = 'none';
             antibioticSection.classList.add('hidden');
+            antibioticSelect.disabled = false;
         }
-    }
+    });
 
-    function updateFormulations() {
-        const antibiotic = document.getElementById('antibiotic').value;
+    document.getElementById('antibiotic').addEventListener('change', function() {
+        const antibiotic = this.value;
+        const formulationSection = document.getElementById('formulation-section');
         const formulationSelect = document.getElementById('formulation');
+        const dalacinTable = document.getElementById('dalacin-table');
+        const recommendedDoseMgKg = document.getElementById('recommended-dose-mg-kg');
+
         formulationSelect.innerHTML = '<option value="">Välj formulering...</option>';
-        if (antibiotic) {
+        if (antibiotic && antibiotics[antibiotic]) {
             antibiotics[antibiotic].formulations.forEach(formulation => {
                 const option = document.createElement('option');
-                option.value = formulation.name;
+                option.value = formulation.concentration;
                 option.textContent = formulation.name;
                 formulationSelect.appendChild(option);
             });
-        }
-    }
-
-    function updateDoseMl() {
-        const antibiotic = document.getElementById('antibiotic').value;
-        const recommendedDoseMlElement = document.getElementById('recommended-dose-ml');
-        if (antibiotic) {
-            recommendedDoseMlElement.value = `${antibiotics[antibiotic].dose} mg/ml`;
+            formulationSection.style.display = 'block';
+            dalacinTable.style.display = antibiotic === 'klindamycin' ? 'block' : 'none';
+            recommendedDoseMgKg.value = `${antibiotics[antibiotic].dose} mg/kg`;
         } else {
-            recommendedDoseMlElement.value = '';
+            formulationSection.style.display = 'none';
+            dalacinTable.style.display = 'none';
+            recommendedDoseMgKg.value = '';
         }
-    }
+    });
+
+    document.getElementById('weight').addEventListener('input', calculateDose);
+    document.getElementById('formulation').addEventListener('change', calculateDose);
 
     function calculateDose() {
         const antibiotic = document.getElementById('antibiotic').value;
-        const formulation = document.getElementById('formulation').value;
         const weight = parseFloat(document.getElementById('weight').value);
-        const recommendedDoseElement = document.getElementById('recommended-dose');
+        const concentration = parseFloat(document.getElementById('formulation').value);
+        const recommendedDose = document.getElementById('recommended-dose');
 
-        if (antibiotic && formulation && weight && !isNaN(weight)) {
-            const { dose, timesPerDay, durationDays } = antibiotics[antibiotic];
-            const selectedFormulation = antibiotics[antibiotic].formulations.find(f => f.name === formulation);
-            const calculatedDose = dose * weight;
-
-            let doseText;
-            if (selectedFormulation.concentration) {
-                const doseInMl = calculatedDose / selectedFormulation.concentration;
-                doseText = `${doseInMl.toFixed(2)} ml`;
-            } else {
-                doseText = `${calculatedDose.toFixed(2)} mg`;
-            }
-
-            recommendedDoseElement.value = `${doseText} ${timesPerDay} gånger/dygn, ${durationDays} dagar`;
+        if (antibiotic && weight && concentration) {
+            const antibioticData = antibiotics[antibiotic];
+            const dose = antibioticData.dose * weight;
+            const doseMl = (dose / concentration).toFixed(2);
+            recommendedDose.value = `${doseMl} ml, ${antibioticData.timesPerDay} ggr/dygn, ${antibioticData.durationDays} dagar`;
         } else {
-            recommendedDoseElement.value = '';
+            recommendedDose.value = '';
         }
     }
-
-    document.getElementById('reason').addEventListener('change', updateMessage);
-    document.getElementById('antibiotic').addEventListener('change', function() {
-        updateFormulations();
-        updateDoseMl();
-        calculateDose();
-    });
-    document.getElementById('formulation').addEventListener('change', calculateDose);
-    document.getElementById('weight').addEventListener('input', calculateDose);
 </script>
 </body>
 </html>
